@@ -1,7 +1,9 @@
 <% provide(:title, 'ユーザー一覧') %>
 <div class="container">
-    <h1>ユーザー一覧</h1>
-    <ul class="users">
-        <%= render @users %>
-    </ul>
+  <h1>ユーザー一覧</h1>
+  <%= will_paginate %>  # 追記
+  <ul class="users">
+    <%= render @users %>
+  </ul>
+  <%= will_paginate %>  # 追記
 </div>

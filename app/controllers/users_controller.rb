@@ -21,7 +21,7 @@ class UsersController < ApplicationController
   end
 
   def index
-    @users = User.all
+    @users = User.paginate(page: params[:page])
   end
 
   def edit 
@@ -35,6 +35,22 @@ class UsersController < ApplicationController
       redirect_to @user
     else
       render 'edit'
+    end
+  end
+
+  def destroy
+    @user = User.find(params[:id])
+    if current_user.admin?
+      @user.destroy
+      flash[:success] = "アカウントを削除しました"
+      redirect_to users_url
+    elsif current_user?(@user)
+      @user.destroy
+      flash[:success] = "自分のアカウントを削除しました"
+      redirect_to root_url
+    else
+      flash[:danger] = "他人のアカウントは削除できません"
+      redirect_to root_url
     end
   end
 

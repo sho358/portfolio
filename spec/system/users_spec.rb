@@ -73,6 +73,31 @@ RSpec.describe "Users", type: :system do
     end
   end
   
-  
+  describe "プロフィールページ" do
+    context "ページレイアウト" do
+      before do
+        login_for_system(user)
+        create_list(:dish, 10, user: user)  # 追記
+        visit user_path(user)
+      end
 
+      it "料理の件数が表示されていることを確認" do
+        expect(page).to have_content "料理 (#{user.dishes.count})"
+      end
+
+      it "料理の情報が表示されていることを確認" do
+        Dish.take(5).each do |dish|
+          expect(page).to have_link dish.name
+          expect(page).to have_content dish.description
+          expect(page).to have_content dish.user.name
+          expect(page).to have_content dish.required_time
+          expect(page).to have_content dish.popularity
+        end
+      end
+
+      it "料理のページネーションが表示されていることを確認" do
+        expect(page).to have_css "div.pagination"
+      end
+    end
+  end
 end

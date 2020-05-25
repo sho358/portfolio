@@ -2,7 +2,9 @@ require "rails_helper"
 
 RSpec.describe "お料理登録", type: :request do
   let!(:user) { create(:user) }
+  let!(:other_user) { create(:user) }
   let!(:dish) { create(:dish, user: user) }
+  
 
   context "ログインしているユーザーの場合" do
     before do
@@ -24,7 +26,8 @@ RSpec.describe "お料理登録", type: :request do
                                             tips: "ピリッと辛めに味付けするのがオススメ",
                                             reference: "https://cookpad.com/recipe/2798655",
                                             required_time: 30,
-                                            popularity: 5 } }
+                                            popularity: 5
+                                            } }
       }.to change(Dish, :count).by(1)
       follow_redirect!
       expect(response).to render_template('dishes/show')
@@ -38,7 +41,8 @@ RSpec.describe "お料理登録", type: :request do
                                             tips: "ピリッと辛めに味付けするのがオススメ",
                                             reference: "https://cookpad.com/recipe/2798655",
                                             required_time: 30,
-                                            popularity: 5 } }
+                                            popularity: 5
+                                           } }
       }.not_to change(Dish, :count)
       expect(response).to render_template('dishes/new')
     end

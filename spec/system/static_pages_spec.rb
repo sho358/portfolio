@@ -44,11 +44,10 @@ RSpec.describe "StaticPages", type: :system do
       end
     
 
-      it "料理のページネーションが表示されること" do 
-        login_for_system(user)
+      it "料理のぺージネーションが表示されること" do
         create_list(:dish, 6, user: user)
         visit root_path
-        expect(page).to have_content "みんなの料理(#{user.dishes.count})"
+        expect(page).to have_content "みんなの料理 (#{user.dishes.count})"
         expect(page).to have_css "div.pagination"
         Dish.take(5).each do |d|
           expect(page).to have_link d.name

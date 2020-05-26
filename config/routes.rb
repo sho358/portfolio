@@ -19,5 +19,6 @@ end
 
  get :favorites, to: 'favorites#index'
  post   "favorites/:dish_id/create"  => "favorites#create"
-  delete "favorites/:dish_id/destroy" => "favorites#destroy"
+delete "favorites/:dish_id/destroy" => "favorites#destroy"
+resources :comments, only: [:create, :destroy]
 end

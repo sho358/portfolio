@@ -29,7 +29,11 @@ module SessionsHelper
         user.remember
         cookies.permanent.signed[:user_id] = user.id
         cookies.permanent[:remember_token] = user.remember_token
-      end
+    end
+
+    def current_user?(user)
+        user == current_user
+    end
     
       # 記憶トークンcookieに対応するユーザーを返す
       def current_user

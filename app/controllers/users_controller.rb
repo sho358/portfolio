@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  before_action :logged_in_user, only: [:index, :show, :edit, :update]
+  before_action :logged_in_user, only: [:index, :show, :edit, :update, :destroy,
+                                         :following, :followers ]
   before_action :correct_user,   only: [:edit, :update]
 
   def new
@@ -44,7 +45,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     if current_user.admin?
       @user.destroy
-      flash[:success] = "アカウントを削除しました"
+      flash[:success] = "ユーザーの削除に成功しました"
       redirect_to users_url
     elsif current_user?(@user)
       @user.destroy
@@ -54,6 +55,20 @@ class UsersController < ApplicationController
       flash[:danger] = "他人のアカウントは削除できません"
       redirect_to root_url
     end
+  end
+
+  def following
+    @title = "フォロー中"
+    @user  = User.find(params[:id])
+    @users = @user.following.paginate(page: params[:page])
+    render 'show_follow'
+  end
+
+  def followers
+    @title = "フォロワー"
+    @user  = User.find(params[:id])
+    @users = @user.followers.paginate(page: params[:page])
+    render 'show_follow'
   end
 
   private 
